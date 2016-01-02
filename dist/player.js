@@ -147,8 +147,9 @@ var Player = (function (_EventEmitter) {
 
         _this.lameStream = new _lame2['default'].Decoder();
 
-        pool.pipe(_this.lameStream).once('format', onPlaying);
-        // .once('finish', () => next ? next(song) : this.next())
+        pool.pipe(_this.lameStream).once('format', onPlaying).once('finish', function () {
+          return _this.emit('finish', song);
+        });
 
         function onPlaying(f) {
           self.lameFormat = f;
@@ -241,7 +242,7 @@ var Player = (function (_EventEmitter) {
 
       this.speaker.Speaker.end();
 
-      return;
+      return this;
     }
 
     /**
