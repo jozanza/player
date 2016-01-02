@@ -108,7 +108,7 @@ export default class Player extends EventEmitter {
       pool
         .pipe(this.lameStream)
         .once('format', onPlaying)
-        // .once('finish', () => next ? next(song) : this.next())
+        .once('finish', () => this.emit('finish', song))
 
       function onPlaying(f) {
         self.lameFormat = f
@@ -204,7 +204,7 @@ export default class Player extends EventEmitter {
       .Speaker
       .end()
 
-    return
+    return this
   }
 
   /**
