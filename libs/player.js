@@ -83,7 +83,7 @@ export default class Player extends EventEmitter {
    * [Play a MP3 encoded audio file]
    * @param  {Number} index [the selected index of first played song]
    */
-  play(index = 0) {
+  play(index = 0, next) {
     if (this._list.length <= 0)
       return
     if (!_.isNumber(index))
@@ -108,7 +108,7 @@ export default class Player extends EventEmitter {
       pool
         .pipe(this.lameStream)
         .once('format', onPlaying)
-        .once('finish', () => this.next())
+        .once('finish', () => next ? next(song) : this.next())
 
       function onPlaying(f) {
         self.lameFormat = f
